@@ -1,0 +1,168 @@
+;;--------------------------------------------------------------------
+;; common defs
+;;--------------------------------------------------------------------
+(defun linum-hook ()
+	(line-number-mode 1))
+
+;;--------------------------------------------------------------------
+;; environment 
+;;--------------------------------------------------------------------
+(add-to-list 'load-path "/Users/tranma/.emacsload")
+
+(require 'package)
+(package-initialize)
+
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/bin"))
+(setq exec-path (append exec-path '("/Users/tranma/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/.cabal/bin"))
+(setq exec-path (append exec-path '("/Users/tranma/.cabal/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/ghc/bin"))
+(setq exec-path (append exec-path '("/Users/tranma/ghc/bin")))
+
+;;--------------------------------------------------------------------
+;; editor
+;;--------------------------------------------------------------------
+
+(load-theme 'zenburn t)
+
+(scroll-bar-mode -1)
+
+(setq tab-stop-list (number-sequence 4 200 4))
+
+(evil-mode 1)
+
+(global-auto-complete-mode 1)
+
+(require 'emmet-mode)
+
+;;--------------------------------------------------------------------
+;; flycheck
+;;--------------------------------------------------------------------
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;;--------------------------------------------------------------------
+;; haskell
+;;--------------------------------------------------------------------
+(eval-after-load "haskell-mode"
+    '(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile))
+
+(eval-after-load "haskell-cabal"
+    '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
+
+(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
+(add-hook 'haskell-mode-hook #'flycheck-mode)
+
+(add-hook 'haskell-mode-hook 'linum-hook)
+
+;;--------------------------------------------------------------------
+;; helm
+;;--------------------------------------------------------------------
+(global-set-key (kbd "C-c h") 'helm-mini)
+(helm-mode 1)
+(put 'set-goal-column 'disabled nil)
+
+;;--------------------------------------------------------------------
+;; org 
+;;--------------------------------------------------------------------
+(require 'org)
+
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-agenda-files (list "~/Dropbox/org/work.org"
+			     "~/Dropbox/org/projects.org"
+			     "~/Dropbox/org/personal.org"))
+
+;;--------------------------------------------------------------------
+;; custom functionalities 
+;;--------------------------------------------------------------------
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file name new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
+
+;;--------------------------------------------------------------------
+;; sr-speedbar 
+;;--------------------------------------------------------------------
+(require 'sr-speedbar)
+
+(setq speedbar-frame-parameters
+      '((minibuffer)
+	(width . 40)
+	(border-width . 0)
+	(menu-bar-lines . 0)
+	(tool-bar-lines . 0)
+	(unsplittable . t)
+	(left-fringe . 0)))
+(setq speedbar-hide-button-brackets-flag t)
+(setq speedbar-show-unknown-files t)
+(setq speedbar-smart-directory-expand-flag t)
+(setq speedbar-use-images nil)
+(setq sr-speedbar-auto-refresh nil)
+(setq sr-speedbar-max-width 70)
+(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-width-console 40)
+
+(when window-system
+  (defadvice sr-speedbar-open (after sr-speedbar-open-resize-frame activate)
+    (set-frame-width (selected-frame)
+                     (+ (frame-width) sr-speedbar-width)))
+  (ad-enable-advice 'sr-speedbar-open 'after 'sr-speedbar-open-resize-frame)
+
+  (defadvice sr-speedbar-close (after sr-speedbar-close-resize-frame activate)
+    (sr-speedbar-recalculate-width)
+    (set-frame-width (selected-frame)
+                     (- (frame-width) sr-speedbar-width)))
+  (ad-enable-advice 'sr-speedbar-close 'after 'sr-speedbar-close-resize-frame))
+
+;;--------------------------------------------------------------------
+;; auctex
+;;--------------------------------------------------------------------
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+(setq TeX-PDF-mode t)
+
+;; Use Skim as viewer, enable source <-> PDF sync
+;; make latexmk available via C-c C-c
+;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+
+;; use Skim as default pdf viewer
+;; Skim's displayline is used for forward search (from .tex to .pdf)
+;; option -b highlights the current line; option -g opens Skim in the background 
+(setq TeX-view-program-selection '((output-dvi "open")
+				  (output-pdf-skim-running "Skim")
+				  (output-pdf "open")
+				  (output-html "open")))
+(setq TeX-view-program-list
+     '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+(server-start); start emacs in server mode so that skim can talk to it
