@@ -1,10 +1,4 @@
 ;;--------------------------------------------------------------------
-;; common defs
-;;--------------------------------------------------------------------
-(defun linum-hook ()
-	(line-number-mode 1))
-
-;;--------------------------------------------------------------------
 ;; environment 
 ;;--------------------------------------------------------------------
 (add-to-list 'load-path "/Users/tranma/.emacsload")
@@ -24,25 +18,10 @@
 (setq exec-path (append exec-path '("/Users/tranma/ghc/bin")))
 
 ;;--------------------------------------------------------------------
-;; editor
-;;--------------------------------------------------------------------
-
-(load-theme 'zenburn t)
-
-(scroll-bar-mode -1)
-
-(setq tab-stop-list (number-sequence 4 200 4))
-
-(evil-mode 1)
-
-(global-auto-complete-mode 1)
-
-(require 'emmet-mode)
-
-;;--------------------------------------------------------------------
-;; flycheck
+;; flycheck & autocomp
 ;;--------------------------------------------------------------------
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(global-auto-complete-mode 1)
 
 ;;--------------------------------------------------------------------
 ;; haskell
@@ -55,8 +34,6 @@
 
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 (add-hook 'haskell-mode-hook #'flycheck-mode)
-
-(add-hook 'haskell-mode-hook 'linum-hook)
 
 ;;--------------------------------------------------------------------
 ;; helm
@@ -77,25 +54,6 @@
 (setq org-agenda-files (list "~/Dropbox/org/work.org"
 			     "~/Dropbox/org/projects.org"
 			     "~/Dropbox/org/personal.org"))
-
-;;--------------------------------------------------------------------
-;; custom functionalities 
-;;--------------------------------------------------------------------
-;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (message "A buffer named '%s' already exists!" new-name)
-        (progn
-          (rename-file name new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil))))))
 
 ;;--------------------------------------------------------------------
 ;; sr-speedbar 
@@ -166,3 +124,57 @@
      '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
 (server-start); start emacs in server mode so that skim can talk to it
+
+;;--------------------------------------------------------------------
+;; custom functionalities 
+;;--------------------------------------------------------------------
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file name new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
+
+;;--------------------------------------------------------------------
+;; web 
+;;--------------------------------------------------------------------
+(require 'emmet-mode)
+
+;;--------------------------------------------------------------------
+;; editor
+;;--------------------------------------------------------------------
+
+; enable line numbers in the following major modes
+(defun linum-hook ()
+	(line-number-mode 1))
+(add-hook 'haskell-mode-hook 'linum-hook)
+(add-hook 'LaTeX-mode-hook 'linum-hook)
+
+; vim
+(evil-mode 1)
+
+; tabs
+(setq tab-stop-list (number-sequence 4 200 4))
+
+; appearance
+(load-theme 'zenburn t)
+(scroll-bar-mode -1)
+
+; 80 col
+(require 'fill-column-indicator)
+(setq fci-rule-column 80)
+(setq fci-rule-width 1)
+(setq fci-rule-color "gray")
+(add-hook 'after-change-major-mode-hook 'fci-mode)
+
+(provide '.emacs)
+;;; .emacs ends here

@@ -28,7 +28,7 @@
  '(haskell-font-lock-symbols nil)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)))
+    (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)) t)
  '(initial-frame-alist
    (quote
     ((fullscreen . fullboth)
@@ -56,3 +56,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(latex-mode-default ((t (:inherit text-mode-default :stipple nil :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Source Code Pro")))))
