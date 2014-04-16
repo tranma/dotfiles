@@ -24,11 +24,17 @@
       (font-backend mac-ct ns))))
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+ '(ecb-show-sources-in-directories-buffer (quote always))
+ '(ecb-source-file-regexps
+   (quote
+    ((".*"
+      ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\)$\\)\\)\\|\\(^Icon\\)")
+      ("^\\.\\(emacs\\|gnus\\)$")))))
  '(ecb-source-path (quote (("/" "/"))))
  '(haskell-font-lock-symbols nil)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)) t)
+    (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)))
  '(initial-frame-alist
    (quote
     ((fullscreen . fullboth)
@@ -47,13 +53,18 @@
      (font-backend mac-ct ns))))
  '(ns-tool-bar-display-mode (quote labels) t)
  '(ns-tool-bar-size-mode (quote regular) t)
+ '(one-buffer-one-frame-mode t nil (aquamacs-frame-setup))
  '(speedbar-after-create-hook nil)
  '(speedbar-default-position (quote left))
- '(tabbar-mode t nil (tabbar))
+ '(tabbar-mode nil nil (tabbar))
  '(visual-line-mode nil t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(latex-mode-default ((t (:inherit text-mode-default :stipple nil :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Source Code Pro")))))
+ '(c-mode-default ((t (:inherit prog-mode-default :height 130 :family "Source Code Pro"))) t)
+ '(ecb-default-highlight-face ((t (:background "#6c6c9c"))))
+ '(latex-mode-default ((t (:inherit text-mode-default :stipple nil :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Source Code Pro"))))
+ '(markdown-mode-default ((t (:inherit text-mode-default :height 120 :family "Source Code Pro"))) t)
+ '(org-mode-default ((t (:inherit outline-mode-default :stipple nil :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Source Code Pro")))))
