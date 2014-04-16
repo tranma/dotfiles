@@ -96,7 +96,6 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
@@ -145,9 +144,15 @@
           (set-buffer-modified-p nil))))))
 
 ;;--------------------------------------------------------------------
-;; web 
+;; web
 ;;--------------------------------------------------------------------
 (require 'emmet-mode)
+
+;;--------------------------------------------------------------------
+;; terminal
+;;--------------------------------------------------------------------
+(require 'multi-term)
+(setq multi-term-program "/bin/zsh")
 
 ;;--------------------------------------------------------------------
 ;; editor
@@ -165,6 +170,10 @@
 ; tabs
 (setq tab-stop-list (number-sequence 4 200 4))
 
+; disable scrollbars and file tabs
+(tabbar-mode 0)
+(scroll-bar-mode 0)
+
 ; appearance
 (load-theme 'zenburn t)
 (scroll-bar-mode -1)
@@ -174,6 +183,9 @@
 (setq fci-rule-column 80)
 (setq fci-rule-width 1)
 (setq fci-rule-color "gray")
+(add-hook 'c-mode-hook 'fci-mode)
+(add-hook 'haskell-mode-hook 'fci-mode)
+(add-hook 'LaTeX-mode-hook 'fci-mode)
 
 (provide '.emacs)
 ;;; .emacs ends here

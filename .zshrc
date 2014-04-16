@@ -31,6 +31,13 @@ ZSH_THEME="mine"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(brew osx terminalapp lol git mercurial sublime zsh-syntax-highlighting)
 
+# Emacs
+if [[ -n ${INSIDE_EMACS} ]]; then
+    ZSH_THEME="mrtazz"
+    export TERM=xterm-256color
+    export LC_CTYPE=en_AU.UTF-8
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
