@@ -46,14 +46,14 @@
 ;; org 
 ;;--------------------------------------------------------------------
 (require 'org)
+(require 'org-bullets)
 
+;; Standard key bindings
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-log-done t)
-
-(setq org-agenda-files (list "~/Dropbox/org/work.org"
-			     "~/Dropbox/org/projects.org"
-			     "~/Dropbox/org/personal.org"))
 
 ;;--------------------------------------------------------------------
 ;; sr-speedbar 
@@ -174,7 +174,6 @@
 (setq fci-rule-column 80)
 (setq fci-rule-width 1)
 (setq fci-rule-color "gray")
-(add-hook 'after-change-major-mode-hook 'fci-mode)
 
 (provide '.emacs)
 ;;; .emacs ends here

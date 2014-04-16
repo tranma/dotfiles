@@ -9,7 +9,6 @@
  '(default-frame-alist
     (quote
      ((cursor-type . box)
-      (vertical-scroll-bars . right)
       (internal-border-width . 0)
       (modeline . t)
       (fringe)
@@ -21,10 +20,15 @@
       (left-fringe . 6)
       (font . "-*-Source Code Pro-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
       (fontsize . 0)
-      (font-backend mac-ct ns))))
+      (font-backend mac-ct ns)
+      (vertical-scroll-bars))))
+ '(deft-directory "/Users/tranma/Dropbox/org")
+ '(deft-extension "org")
+ '(deft-text-mode (quote org-mode))
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
  '(ecb-source-path (quote (("/" "/"))))
+ '(flycheck-display-errors-delay 2048)
  '(haskell-font-lock-symbols nil)
  '(haskell-mode-hook
    (quote
@@ -47,6 +51,10 @@
      (font-backend mac-ct ns))))
  '(ns-tool-bar-display-mode (quote labels) t)
  '(ns-tool-bar-size-mode (quote regular) t)
+ '(org-agenda-file-regexp "\\`[^.].*_agenda\\.org\\'")
+ '(org-agenda-files (quote ("~/Dropbox/org/")))
+ '(org-hide-leading-stars t)
+ '(org-startup-indented t)
  '(speedbar-after-create-hook nil)
  '(speedbar-default-position (quote left))
  '(tabbar-mode t nil (tabbar))
