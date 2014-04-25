@@ -35,6 +35,7 @@
       ("^\\.\\(emacs\\|gnus\\)$")))))
  '(ecb-source-path (quote (("/" "/"))))
  '(flycheck-display-errors-delay 2048)
+ '(global-hl-line-mode t)
  '(haskell-font-lock-symbols nil)
  '(haskell-mode-hook
    (quote
@@ -57,11 +58,11 @@
      (font-backend mac-ct ns))))
  '(ns-tool-bar-display-mode (quote labels) t)
  '(ns-tool-bar-size-mode (quote regular) t)
+ '(one-buffer-one-frame-mode t nil (aquamacs-frame-setup))
  '(org-agenda-file-regexp "\\`[^.].*_agenda\\.org\\'")
  '(org-agenda-files (quote ("~/Dropbox/org/")))
  '(org-hide-leading-stars t)
  '(org-startup-indented t)
- '(one-buffer-one-frame-mode t nil (aquamacs-frame-setup))
  '(speedbar-after-create-hook nil)
  '(speedbar-default-position (quote left))
  '(tabbar-mode nil nil (tabbar))

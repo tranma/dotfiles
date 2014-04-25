@@ -196,6 +196,9 @@ See URL `http://www.haskell.org/ghc/'."
 ;; editor
 ;;--------------------------------------------------------------------
 
+(global-hl-line-mode 1)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ; enable line numbers in the following major modes
 (defun linum-hook ()
 	(line-number-mode 1))
