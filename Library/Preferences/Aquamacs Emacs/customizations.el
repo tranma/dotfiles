@@ -42,9 +42,7 @@
     (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)))
  '(initial-frame-alist
    (quote
-    ((fullscreen . fullboth)
-     (fullscreen-saved-state)
-     (vertical-scroll-bars)
+    ((vertical-scroll-bars)
      (modeline . t)
      (fringe)
      (mouse-color . "#839496")
