@@ -196,7 +196,7 @@ See URL `http://www.haskell.org/ghc/'."
 ;; editor
 ;;--------------------------------------------------------------------
 
-(global-hl-line-mode 1)
+;(global-hl-line-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; enable line numbers in the following major modes
@@ -207,9 +207,13 @@ See URL `http://www.haskell.org/ghc/'."
 
 ; vim
 (evil-mode 1)
-(add-to-list 'load-path "~/.emacs.d/packages/")
-(require 'evil-mode-line)
-(set-face-foreground 'mode-line "#dcdcdc")
+(setq evil-want-fine-undo t)
+(require 'evil-matchit)
+(global-evil-matchit-mode 1)
+(require 'evil-visualstar)
+;(add-to-list 'load-path "~/.emacs.d/packages/")
+;(require 'evil-mode-line)
+;(set-face-foreground 'mode-line "#dcdcdc")
 
 ; tabs
 (setq tab-stop-list (number-sequence 4 200 4))

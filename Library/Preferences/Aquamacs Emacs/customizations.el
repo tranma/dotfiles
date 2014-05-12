@@ -35,7 +35,6 @@
       ("^\\.\\(emacs\\|gnus\\)$")))))
  '(ecb-source-path (quote (("/" "/"))))
  '(flycheck-display-errors-delay 2048)
- '(global-hl-line-mode t)
  '(haskell-font-lock-symbols nil)
  '(haskell-mode-hook
    (quote
