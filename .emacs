@@ -2,6 +2,7 @@
 ;; environment 
 ;;--------------------------------------------------------------------
 (add-to-list 'load-path "/Users/tranma/.emacsload")
+(add-to-list 'load-path "/Users/tranma/.emacs.d/packages")
 
 (require 'package)
 (package-initialize)
@@ -210,10 +211,8 @@ See URL `http://www.haskell.org/ghc/'."
 (setq evil-want-fine-undo t)
 (require 'evil-matchit)
 (global-evil-matchit-mode 1)
+(require 'evil-mode-line)
 (require 'evil-visualstar)
-;(add-to-list 'load-path "~/.emacs.d/packages/")
-;(require 'evil-mode-line)
-;(set-face-foreground 'mode-line "#dcdcdc")
 
 ; tabs
 (setq tab-stop-list (number-sequence 4 200 4))
