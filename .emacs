@@ -1,15 +1,8 @@
 ;;--------------------------------------------------------------------
-;; environment 
+;; environment
 ;;--------------------------------------------------------------------
 (add-to-list 'load-path "/Users/tranma/.emacsload")
 (add-to-list 'load-path "/Users/tranma/.emacs.d/packages")
-
-(require 'package)
-(package-initialize)
-
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/bin"))
 (setq exec-path (append exec-path '("/Users/tranma/bin")))
@@ -17,6 +10,33 @@
 (setq exec-path (append exec-path '("/Users/tranma/.cabal/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/ghc/bin"))
 (setq exec-path (append exec-path '("/Users/tranma/ghc/bin")))
+
+;;--------------------------------------------------------------------
+;; auto install packages
+;;--------------------------------------------------------------------
+
+; list the packages you want
+(setq package-list
+'(auto-complete popup deft ecb emmet-mode evil-matchit evil-visualstar evil goto-chg undo-tree fill-column-indicator flycheck-haskell f dash s dash haskell-mode flycheck pkg-info epl dash f dash s dash s goto-chg haskell-mode helm inkpot-theme jujube-theme magit git-rebase-mode git-commit-mode multi-term org-bullets pkg-info epl dash popup powerline s smotitah solarized-theme sr-speedbar tree-mode undo-tree windata zenburn-theme))
+
+; list the repositories containing them
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(require 'package)
+
+; activate all the packages (in particular autoloads)
+(package-initialize)
+
+; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
 
 ;;--------------------------------------------------------------------
 ;; flycheck & autocomp
@@ -82,7 +102,7 @@ See URL `http://www.haskell.org/ghc/'."
 (put 'set-goal-column 'disabled nil)
 
 ;;--------------------------------------------------------------------
-;; org 
+;; org
 ;;--------------------------------------------------------------------
 (require 'org)
 (require 'org-bullets)
@@ -95,7 +115,7 @@ See URL `http://www.haskell.org/ghc/'."
 (setq org-log-done t)
 
 ;;--------------------------------------------------------------------
-;; sr-speedbar 
+;; sr-speedbar
 ;;--------------------------------------------------------------------
 (require 'sr-speedbar)
 
@@ -153,7 +173,7 @@ See URL `http://www.haskell.org/ghc/'."
 
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
-;; option -b highlights the current line; option -g opens Skim in the background 
+;; option -b highlights the current line; option -g opens Skim in the background
 (setq TeX-view-program-selection '((output-dvi "open")
 				  (output-pdf-skim-running "Skim")
 				  (output-pdf "open")
@@ -164,7 +184,7 @@ See URL `http://www.haskell.org/ghc/'."
 (server-start); start emacs in server mode so that skim can talk to it
 
 ;;--------------------------------------------------------------------
-;; custom functionalities 
+;; custom functionalities
 ;;--------------------------------------------------------------------
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -209,10 +229,10 @@ See URL `http://www.haskell.org/ghc/'."
 ; vim
 (evil-mode 1)
 (setq evil-want-fine-undo t)
-(require 'evil-matchit)
-(global-evil-matchit-mode 1)
-(require 'evil-mode-line)
-(require 'evil-visualstar)
+;(require 'evil-matchit)
+;(global-evil-matchit-mode 1)
+;(require 'evil-mode-line)
+;(require 'evil-visualstar)
 
 ; tabs
 (setq tab-stop-list (number-sequence 4 200 4))
