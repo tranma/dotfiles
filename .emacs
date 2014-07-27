@@ -16,8 +16,8 @@
 ;;--------------------------------------------------------------------
 
 ; list the packages you want
-(setq package-list
-'(auto-complete popup deft ecb emmet-mode evil-matchit evil-visualstar evil goto-chg undo-tree fill-column-indicator flycheck-haskell f dash s dash haskell-mode flycheck pkg-info epl dash f dash s dash s goto-chg haskell-mode helm inkpot-theme jujube-theme magit git-rebase-mode git-commit-mode multi-term org-bullets pkg-info epl dash popup powerline s smotitah solarized-theme sr-speedbar tree-mode undo-tree windata zenburn-theme))
+; (setq package-list
+; '(auto-complete popup deft ecb emmet-mode evil-matchit evil-visualstar evil goto-chg undo-tree fill-column-indicator flycheck-haskell f dash s dash haskell-mode flycheck pkg-info epl dash f dash s dash s goto-chg haskell-mode helm inkpot-theme jujube-theme magit git-rebase-mode git-commit-mode multi-term org-bullets pkg-info epl dash popup powerline s smotitah solarized-theme sr-speedbar tree-mode undo-tree windata zenburn-theme))
 
 ; list the repositories containing them
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -30,13 +30,13 @@
 (package-initialize)
 
 ; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
+; (unless package-archive-contents
+;   (package-refresh-contents))
 
 ; install the missing packages
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
+; (dolist (package package-list)
+;   (unless (package-installed-p package)
+;     (package-install package)))
 
 ;;--------------------------------------------------------------------
 ;; flycheck & autocomp
