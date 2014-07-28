@@ -41,7 +41,7 @@ fi
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=/Users/tranma/.gem/ruby/1.8/bin:/Users/tranma/Library/Haskell/bin:/Users/tranma/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/tranma/Library/Haskell/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/texbin
+export PATH=/Users/tranma/.gem/ruby/1.8/bin:/Users/tranma/Library/Haskell/bin:/Users/tranma/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/tranma/Library/Haskell/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/texbin:/Users/tranma/ghc/bin
 
 unsetopt inc_append_history
 unsetopt append_history
