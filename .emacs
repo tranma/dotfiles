@@ -40,6 +40,47 @@
 ;     (package-install package)))
 
 ;;--------------------------------------------------------------------
+;; editor
+;;--------------------------------------------------------------------
+
+;(global-hl-line-mode 1)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; enable line numbers in the following major modes
+(defun linum-hook ()
+	(line-number-mode 1))
+(add-hook 'haskell-mode-hook 'linum-hook)
+(add-hook 'LaTeX-mode-hook 'linum-hook)
+
+; vim
+(evil-mode 1)
+(setq evil-want-fine-undo t)
+;(require 'evil-matchit)
+;(global-evil-matchit-mode 1)
+;(require 'evil-mode-line)
+;(require 'evil-visualstar)
+
+; tabs
+(setq tab-stop-list (number-sequence 4 200 4))
+
+; disable scrollbars and file tabs
+(tabbar-mode 0)
+(scroll-bar-mode 0)
+
+; appearance
+(load-theme 'zenburn t)
+(scroll-bar-mode -1)
+
+; 80 col
+(require 'fill-column-indicator)
+(setq fci-rule-column 80)
+(setq fci-rule-width 1)
+(setq fci-rule-color "gray")
+(add-hook 'c-mode-hook 'fci-mode)
+(add-hook 'haskell-mode-hook 'fci-mode)
+(add-hook 'LaTeX-mode-hook 'fci-mode)
+
+;;--------------------------------------------------------------------
 ;; flycheck & autocomp
 ;;--------------------------------------------------------------------
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -215,45 +256,8 @@ See URL `http://www.haskell.org/ghc/'."
 (setq multi-term-program "/bin/zsh")
 
 ;;--------------------------------------------------------------------
-;; editor
+;; kept getting replaced, wtf
 ;;--------------------------------------------------------------------
-
-;(global-hl-line-mode 1)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-; enable line numbers in the following major modes
-(defun linum-hook ()
-	(line-number-mode 1))
-(add-hook 'haskell-mode-hook 'linum-hook)
-(add-hook 'LaTeX-mode-hook 'linum-hook)
-
-; vim
-(evil-mode 1)
-(setq evil-want-fine-undo t)
-;(require 'evil-matchit)
-;(global-evil-matchit-mode 1)
-;(require 'evil-mode-line)
-;(require 'evil-visualstar)
-
-; tabs
-(setq tab-stop-list (number-sequence 4 200 4))
-
-; disable scrollbars and file tabs
-(tabbar-mode 0)
-(scroll-bar-mode 0)
-
-; appearance
-(load-theme 'zenburn t)
-(scroll-bar-mode -1)
-
-; 80 col
-(require 'fill-column-indicator)
-(setq fci-rule-column 80)
-(setq fci-rule-width 1)
-(setq fci-rule-color "gray")
-(add-hook 'c-mode-hook 'fci-mode)
-(add-hook 'haskell-mode-hook 'fci-mode)
-(add-hook 'LaTeX-mode-hook 'fci-mode)
 
 (provide '.emacs)
 ;;; .emacs ends here
