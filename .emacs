@@ -89,14 +89,16 @@
 ;;--------------------------------------------------------------------
 ;; haskell
 ;;--------------------------------------------------------------------
-(eval-after-load "haskell-mode"
-    '(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile))
+(require 'haskell-mode)
+(require 'inf-haskell)
 
-(eval-after-load "haskell-cabal"
-    '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile)
+(define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle)
+(setq haskell-hoogle-command "hoogle")
 
-(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
+(add-hook 'haskell-mode-hook #'inf-haskell-mode)
 (add-hook 'haskell-mode-hook #'flycheck-mode)
+(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 ;; hack for TH
 (require 'flycheck)
