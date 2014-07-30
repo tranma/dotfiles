@@ -30,7 +30,7 @@
 ;; editor
 ;;--------------------------------------------------------------------
 
-;(global-hl-line-mode 1)
+(global-hl-line-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; enable line numbers in the following major modes
