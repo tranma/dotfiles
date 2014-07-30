@@ -16,10 +16,6 @@
 ;; doesn't work
 ;;--------------------------------------------------------------------
 
-; list the packages you want
-; (setq package-list
-; '(auto-complete popup deft ecb emmet-mode evil-matchit evil-visualstar evil goto-chg undo-tree fill-column-indicator flycheck-haskell f dash s dash haskell-mode flycheck pkg-info epl dash f dash s dash s goto-chg haskell-mode helm inkpot-theme jujube-theme magit git-rebase-mode git-commit-mode multi-term org-bullets pkg-info epl dash popup powerline s smotitah solarized-theme sr-speedbar tree-mode undo-tree windata zenburn-theme))
-
 ; list the repositories containing them
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -30,15 +26,6 @@
 ; activate all the packages (in particular autoloads)
 (package-initialize)
 
-; fetch the list of packages available
-; (unless package-archive-contents
-;   (package-refresh-contents))
-
-; install the missing packages
-; (dolist (package package-list)
-;   (unless (package-installed-p package)
-;     (package-install package)))
-
 ;;--------------------------------------------------------------------
 ;; flycheck & autocomp
 ;;--------------------------------------------------------------------
@@ -48,8 +35,20 @@
 ;;--------------------------------------------------------------------
 ;; haskell
 ;;--------------------------------------------------------------------
-(eval-after-load "haskell-mode"
-    '(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile))
+(require 'haskell-mode)
+
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+(define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+(define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
+
+(custom-set-variables '(haskell-process-type 'cabal-repl))
+(add-to-list 'evil-emacs-state-modes 'haskell-interactive-mode)
+(add-to-list 'evil-emacs-state-modes 'haskell-presentation-mode)
 
 (eval-after-load "haskell-cabal"
     '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
@@ -243,7 +242,7 @@ See URL `http://www.haskell.org/ghc/'."
 (scroll-bar-mode 0)
 
 ; appearance
-(load-theme 'zenburn t)
+(load-theme 'jujube t)
 (scroll-bar-mode -1)
 
 ; 80 col
