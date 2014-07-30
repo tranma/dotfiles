@@ -6,6 +6,9 @@
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 305 t)
  '(aquamacs-tool-bar-user-customization nil t)
+ '(custom-safe-themes
+   (quote
+    ("579e9950513524d8739e08eae289419cfcb64ed9b7cc910dd2e66151c77975c4" default)))
  '(default-frame-alist
     (quote
      ((cursor-type . box)
@@ -36,11 +39,13 @@
  '(ecb-source-path (quote (("/" "/"))))
  '(flycheck-display-errors-delay 2048)
  '(haskell-font-lock-symbols nil)
+ '(haskell-hoogle-command "hoogle-me")
  '(haskell-mode-hook
    (quote
     (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)))
- '(haskell-program-name "cabal repl")
- '(haskell-tags-on-save t)
+ '(haskell-process-log t)
+ '(haskell-process-type (quote cabal-repl))
+ '(haskell-process-use-presentation-mode t)
  '(initial-frame-alist
    (quote
     ((vertical-scroll-bars)
