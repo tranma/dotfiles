@@ -39,6 +39,8 @@
  '(haskell-mode-hook
    (quote
     (turn-on-haskell-indentation turn-on-haskell-simple-indent flycheck-mode)))
+ '(haskell-program-name "cabal repl")
+ '(haskell-tags-on-save t)
  '(initial-frame-alist
    (quote
     ((vertical-scroll-bars)
