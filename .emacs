@@ -30,22 +30,19 @@
 ;; editor
 ;;--------------------------------------------------------------------
 
-(global-hl-line-mode 1)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+; appearance
+(load-theme 'jujube t)
+(scroll-bar-mode -1)
+; doesn't work in aquamacs??
+;(global-hl-line-mode 1)
+(highlight-current-line-on t)
+(set-face-background 'highlight-current-line-face "grey25")
 
-; enable line numbers in the following major modes
-(defun linum-hook ()
-	(line-number-mode 1))
-(add-hook 'haskell-mode-hook 'linum-hook)
-(add-hook 'LaTeX-mode-hook 'linum-hook)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; vim
 (evil-mode 1)
 (setq evil-want-fine-undo t)
-;(require 'evil-matchit)
-;(global-evil-matchit-mode 1)
-;(require 'evil-mode-line)
-;(require 'evil-visualstar)
 
 ; tabs
 (setq tab-stop-list (number-sequence 4 200 4))
@@ -54,17 +51,13 @@
 (tabbar-mode 0)
 (scroll-bar-mode 0)
 
-; appearance
-(load-theme 'jujube t)
-(scroll-bar-mode -1)
-
 ; 80 col
 (require 'fill-column-indicator)
+(turn-on-fci-mode)
 (setq fci-rule-column 80)
 (setq fci-rule-width 1)
-(setq fci-rule-color "gray")
+(setq fci-rule-color "dim grey")
 (add-hook 'c-mode-hook 'fci-mode)
-(add-hook 'haskell-mode-hook 'fci-mode)
 (add-hook 'LaTeX-mode-hook 'fci-mode)
 
 ;;--------------------------------------------------------------------
