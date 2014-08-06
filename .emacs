@@ -34,9 +34,9 @@
 (load-theme 'jujube t)
 (scroll-bar-mode -1)
 ; doesn't work in aquamacs??
-;(global-hl-line-mode 1)
-(highlight-current-line-on t)
-(set-face-background 'highlight-current-line-face "grey25")
+(global-hl-line-mode 1)
+;(highlight-current-minor-mode)
+;(set-face-background 'highlight-current-line-face "grey25")
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
