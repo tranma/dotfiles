@@ -1,15 +1,13 @@
 ;;--------------------------------------------------------------------
 ;; environment
 ;;--------------------------------------------------------------------
-(add-to-list 'load-path "/Users/tranma/.emacsload")
-(add-to-list 'load-path "/Users/tranma/.emacs.d/packages")
+(add-to-list 'load-path "/Users/tranma/.emacs.d/packages/flycheck-20140328.743")
+(add-to-list 'load-path "/Users/tranma/.emacs.d/packages/flycheck-haskell-20140407.135")
 
-(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/bin"))
-(setq exec-path (append exec-path '("/Users/tranma/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/ghc/7.8.2/bin"))
+(setq exec-path (append exec-path '("/Users/tranma/ghc/7.8.2/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/.cabal/bin"))
 (setq exec-path (append exec-path '("/Users/tranma/.cabal/bin")))
-(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/ghc/bin"))
-(setq exec-path (append exec-path '("/Users/tranma/ghc/bin")))
 
 ;;--------------------------------------------------------------------
 ;; auto install packages
@@ -48,22 +46,27 @@
 (setq tab-stop-list (number-sequence 4 200 4))
 
 ; disable scrollbars and file tabs
-(tabbar-mode 0)
+;(tabbar-mode 0)
 (scroll-bar-mode 0)
 
 ; 80 col
-(require 'fill-column-indicator)
-(turn-on-fci-mode)
-(setq fci-rule-column 80)
-(setq fci-rule-width 1)
-(setq fci-rule-color "dim grey")
-(add-hook 'c-mode-hook 'fci-mode)
-(add-hook 'LaTeX-mode-hook 'fci-mode)
+;(require 'fill-column-indicator)
+;(turn-on-fci-mode)
+;(setq fci-rule-column 80)
+;(setq fci-rule-width 1)
+;(setq fci-rule-color "dim grey")
+;(add-hook 'c-mode-hook 'fci-mode)
+;(add-hook 'LaTeX-mode-hook 'fci-mode)
 
 ;;--------------------------------------------------------------------
 ;; flycheck & autocomp
 ;;--------------------------------------------------------------------
+(require 'flycheck)
+;(require 'flycheck-haskell)
+;(add-to-list 'evil-emacs-state-modes 'flycheck-error-list)
+;(add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
 (global-auto-complete-mode 1)
 
 ;;--------------------------------------------------------------------
@@ -80,7 +83,12 @@
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
-(custom-set-variables '(haskell-process-type 'cabal-repl))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(haskell-process-type (quote cabal-repl)))
 (add-to-list 'evil-emacs-state-modes 'haskell-interactive-mode)
 (add-to-list 'evil-emacs-state-modes 'haskell-presentation-mode)
 
@@ -88,12 +96,10 @@
 (define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle)
 (setq haskell-hoogle-command "hoogle")
 
-(add-hook 'haskell-mode-hook #'inf-haskell-mode)
 (add-hook 'haskell-mode-hook #'flycheck-mode)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 ;; hack for TH
-(require 'flycheck)
 (flycheck-define-checker haskell-ghc-hack
   "A Haskell syntax and type checker using ghc.
 
@@ -137,6 +143,9 @@ See URL `http://www.haskell.org/ghc/'."
 (helm-mode 1)
 (put 'set-goal-column 'disabled nil)
 
+(eval-after-load 'flycheck
+  '(define-key flycheck-mode-map (kbd "C-c ! h") 'helm-flycheck))
+
 ;;--------------------------------------------------------------------
 ;; org
 ;;--------------------------------------------------------------------
@@ -149,40 +158,6 @@ See URL `http://www.haskell.org/ghc/'."
 (global-set-key "\C-cb" 'org-iswitchb)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-log-done t)
-
-;;--------------------------------------------------------------------
-;; sr-speedbar
-;;--------------------------------------------------------------------
-(require 'sr-speedbar)
-
-(setq speedbar-frame-parameters
-      '((minibuffer)
-	(width . 40)
-	(border-width . 0)
-	(menu-bar-lines . 0)
-	(tool-bar-lines . 0)
-	(unsplittable . t)
-	(left-fringe . 0)))
-(setq speedbar-hide-button-brackets-flag t)
-(setq speedbar-show-unknown-files t)
-(setq speedbar-smart-directory-expand-flag t)
-(setq speedbar-use-images nil)
-(setq sr-speedbar-auto-refresh nil)
-(setq sr-speedbar-max-width 70)
-(setq sr-speedbar-right-side nil)
-(setq sr-speedbar-width-console 40)
-
-(when window-system
-  (defadvice sr-speedbar-open (after sr-speedbar-open-resize-frame activate)
-    (set-frame-width (selected-frame)
-                     (+ (frame-width) sr-speedbar-width)))
-  (ad-enable-advice 'sr-speedbar-open 'after 'sr-speedbar-open-resize-frame)
-
-  (defadvice sr-speedbar-close (after sr-speedbar-close-resize-frame activate)
-    (sr-speedbar-recalculate-width)
-    (set-frame-width (selected-frame)
-                     (- (frame-width) sr-speedbar-width)))
-  (ad-enable-advice 'sr-speedbar-close 'after 'sr-speedbar-close-resize-frame))
 
 ;;--------------------------------------------------------------------
 ;; auctex
@@ -239,6 +214,12 @@ See URL `http://www.haskell.org/ghc/'."
           (set-buffer-modified-p nil))))))
 
 ;;--------------------------------------------------------------------
+;; agda
+;;--------------------------------------------------------------------
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
+
+;;--------------------------------------------------------------------
 ;; web
 ;;--------------------------------------------------------------------
 (require 'emmet-mode)
@@ -248,6 +229,12 @@ See URL `http://www.haskell.org/ghc/'."
 ;;--------------------------------------------------------------------
 (require 'multi-term)
 (setq multi-term-program "/bin/zsh")
+
+;;--------------------------------------------------------------------
+;; from customizations.el
+;;--------------------------------------------------------------------
+(set-face-attribute 'default nil
+                    :family "PragmataPro" :height 120 :weight 'normal)
 
 (provide '.emacs)
 ;;; .emacs ends here

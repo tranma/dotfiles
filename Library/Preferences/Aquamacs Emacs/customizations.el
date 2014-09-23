@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(agda2-include-dirs (quote ("." "/Users/tranma/.agda/lib-0.8.1/src")))
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 305 t)
  '(aquamacs-tool-bar-user-customization nil t)
@@ -41,6 +42,7 @@
       ("^\\.\\(emacs\\|gnus\\)$")))))
  '(ecb-source-path (quote (("/" "/"))))
  '(flycheck-display-errors-delay 2048)
+ '(global-hl-line-mode t)
  '(haskell-font-lock-symbols nil)
  '(haskell-hoogle-command "hoogle-me")
  '(haskell-mode-hook
@@ -80,6 +82,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :foreground "#e8e8d3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "PragmataPro"))))
+ '(agda2-highlight-coinductive-constructor-face ((t (:foreground "#aaffcc"))))
+ '(agda2-highlight-datatype-face ((t (:foreground "light blue"))))
+ '(agda2-highlight-field-face ((t (:foreground "#ff99cc"))))
+ '(agda2-highlight-function-face ((t (:foreground "#66ccff"))))
+ '(agda2-highlight-inductive-constructor-face ((t (:foreground "#ccffaa"))))
+ '(agda2-highlight-keyword-face ((t (:foreground "#ffaa00"))))
+ '(agda2-highlight-module-face ((t (:foreground "#ffaaff"))))
+ '(agda2-highlight-number-face ((t (:foreground "light green"))))
+ '(agda2-highlight-postulate-face ((t (:foreground "#ff7766"))))
+ '(agda2-highlight-primitive-face ((t (:foreground "#66ccff"))))
+ '(agda2-highlight-primitive-type-face ((t (:foreground "light blue"))))
+ '(agda2-highlight-record-face ((t (:foreground "light blue"))))
+ '(agda2-highlight-string-face ((t (:foreground "#aaffff"))))
  '(c-mode-default ((t (:inherit prog-mode-default :height 110 :family "PragmataPro"))) t)
  '(ecb-default-highlight-face ((t (:background "#6c6c9c"))))
  '(haskell-mode-default ((t (:inherit haskell-parent-mode-default :height 110 :family "PragmataPro"))) t)
