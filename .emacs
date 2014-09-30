@@ -1,41 +1,88 @@
 ;;--------------------------------------------------------------------
 ;; environment
 ;;--------------------------------------------------------------------
-(add-to-list 'load-path "/Users/tranma/.emacs.d/packages/flycheck-20140328.743")
-(add-to-list 'load-path "/Users/tranma/.emacs.d/packages/flycheck-haskell-20140407.135")
 
-(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/ghc/7.8.2/bin"))
-(setq exec-path (append exec-path '("/Users/tranma/ghc/7.8.2/bin")))
-(setenv "PATH" (concat (getenv "PATH") ":/Users/tranma/.cabal/bin"))
-(setq exec-path (append exec-path '("/Users/tranma/.cabal/bin")))
+; Paths to locally installed ghc and cabal
+(setenv "PATH" (concat (getenv "PATH") ":~/ghc/bin"))
+(setq exec-path (append exec-path '("~/ghc/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":~/.cabal/bin"))
+(setq exec-path (append exec-path '("~/.cabal/bin")))
 
-;;--------------------------------------------------------------------
-;; auto install packages
-;; doesn't work
-;;--------------------------------------------------------------------
+; Start emacs here
+(setq inhibit-startup-message t)
+(setq default-directory "~/dev")
 
-; list the repositories containing them
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-
+; Package repos
 (require 'package)
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+			 ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 
-; activate all the packages (in particular autoloads)
+; Activate all the packages (in particular autoloads)
 (package-initialize)
+
+;;--------------------------------------------------------------------
+;; macros 
+;;--------------------------------------------------------------------
+
+; From https://github.com/juanjux/emacs-dotfiles
+(if (fboundp 'with-eval-after-load)
+    (defmacro after (feature &rest body)
+      "After FEATURE is loaded, evaluate BODY."
+      (declare (indent defun))
+      `(with-eval-after-load ,feature ,@body))
+  (defmacro after (feature &rest body)
+    "After FEATURE is loaded, evaluate BODY."
+    (declare (indent defun))
+    `(eval-after-load ,feature
+       '(progn ,@body))))
+
+;;--------------------------------------------------------------------
+;; helm
+;;--------------------------------------------------------------------
+
+(helm-mode 1)
+;; helm settings (TAB in helm window for actions over selected items,
+;; C-SPC to select items)
+(require 'helm-config)
+(require 'helm-misc)
+(require 'helm-projectile)
+(require 'helm-locate)
+(setq helm-quick-update t)
+(setq helm-bookmark-show-location t)
+(setq helm-buffers-fuzzy-matching t)
+(put 'set-goal-column 'disabled nil)
+(global-set-key (kbd "C-c h") 'helm-mini)
+
+; flycheck
+(eval-after-load 'flycheck
+  '(define-key flycheck-mode-map (kbd "C-c ! h") 'helm-flycheck))
+
+;;--------------------------------------------------------------------
+;; projectile & project-explorer
+;;--------------------------------------------------------------------
+(require 'projectile)
+
+; PE is useful as projectile only index files when you first open them
+
+(require 'project-explorer)
+(after 'project-explorer
+  (setq pe/cache-directory "~/.emacs.d/cache/project_explorer")
+  (setq pe/omit-regex (concat pe/omit-regex "\\|dist\\|.*\.hi"))
+  (setq pe/cache-enabled t)
+  (setq pe/width 30)
+  (setq pe/side 'right))
+(global-set-key (kbd "C-x C-f") 'project-explorer-helm)
 
 ;;--------------------------------------------------------------------
 ;; editor
 ;;--------------------------------------------------------------------
 
+(windmove-default-keybindings)
+
 ; appearance
 (load-theme 'jujube t)
 (scroll-bar-mode -1)
-; doesn't work in aquamacs??
-(global-hl-line-mode 1)
-;(highlight-current-minor-mode)
-;(set-face-background 'highlight-current-line-face "grey25")
-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; vim
@@ -46,25 +93,12 @@
 (setq tab-stop-list (number-sequence 4 200 4))
 
 ; disable scrollbars and file tabs
-;(tabbar-mode 0)
 (scroll-bar-mode 0)
-
-; 80 col
-;(require 'fill-column-indicator)
-;(turn-on-fci-mode)
-;(setq fci-rule-column 80)
-;(setq fci-rule-width 1)
-;(setq fci-rule-color "dim grey")
-;(add-hook 'c-mode-hook 'fci-mode)
-;(add-hook 'LaTeX-mode-hook 'fci-mode)
 
 ;;--------------------------------------------------------------------
 ;; flycheck & autocomp
 ;;--------------------------------------------------------------------
 (require 'flycheck)
-;(require 'flycheck-haskell)
-;(add-to-list 'evil-emacs-state-modes 'flycheck-error-list)
-;(add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (global-auto-complete-mode 1)
@@ -73,6 +107,8 @@
 ;; haskell
 ;;--------------------------------------------------------------------
 (require 'haskell-mode)
+
+(turn-on-haskell-simple-indent)
 
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
@@ -84,10 +120,8 @@
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+ '(flycheck-haskell-ghc-executable "/Users/tranma/ghc/bin/ghc")
+ '(flycheck-haskell-runhaskell "/Users/tranma/.cabal/bin/cabal-repl")
  '(haskell-process-type (quote cabal-repl)))
 (add-to-list 'evil-emacs-state-modes 'haskell-interactive-mode)
 (add-to-list 'evil-emacs-state-modes 'haskell-presentation-mode)
@@ -98,53 +132,6 @@
 
 (add-hook 'haskell-mode-hook #'flycheck-mode)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
-
-;; hack for TH
-(flycheck-define-checker haskell-ghc-hack
-  "A Haskell syntax and type checker using ghc.
-
-See URL `http://www.haskell.org/ghc/'."
-  :command ("ghc" "-Wall"
-            ;; Include the parent directory of the current module tree, to
-            ;; properly resolve local imports
-            (eval (concat
-                   "-i"
-                   (flycheck-module-root-directory
-                    (flycheck-find-in-buffer flycheck-haskell-module-re))))
-            (option-flag "-no-user-package-db"
-                         flycheck-ghc-no-user-package-database)
-            (option-list "-package-db" flycheck-ghc-package-databases)
-            (option-list "-i" flycheck-ghc-search-path s-prepend)
-            source)
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ":"
-            (or " " "\n    ") "Warning:" (optional "\n")
-            (one-or-more " ")
-            (message (one-or-more not-newline)
-                     (zero-or-more "\n"
-                                   (one-or-more " ")
-                                   (one-or-more not-newline)))
-            line-end)
-   (error line-start (file-name) ":" line ":" column ":"
-          (or (message (one-or-more not-newline))
-              (and "\n" (one-or-more " ")
-                   (message (one-or-more not-newline)
-                            (zero-or-more "\n"
-                                          (one-or-more " ")
-                                          (one-or-more not-newline)))))
-          line-end))
-  :modes haskell-mode
-  :next-checkers ((warnings-only . haskell-hlint)))
-
-;;--------------------------------------------------------------------
-;; helm
-;;--------------------------------------------------------------------
-(global-set-key (kbd "C-c h") 'helm-mini)
-(helm-mode 1)
-(put 'set-goal-column 'disabled nil)
-
-(eval-after-load 'flycheck
-  '(define-key flycheck-mode-map (kbd "C-c ! h") 'helm-flycheck))
 
 ;;--------------------------------------------------------------------
 ;; org
@@ -216,8 +203,8 @@ See URL `http://www.haskell.org/ghc/'."
 ;;--------------------------------------------------------------------
 ;; agda
 ;;--------------------------------------------------------------------
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;(load-file (let ((coding-system-for-read 'utf-8))
+;                (shell-command-to-string "agda-mode locate")))
 
 ;;--------------------------------------------------------------------
 ;; web
@@ -234,7 +221,13 @@ See URL `http://www.haskell.org/ghc/'."
 ;; from customizations.el
 ;;--------------------------------------------------------------------
 (set-face-attribute 'default nil
-                    :family "PragmataPro" :height 120 :weight 'normal)
+                    :family "PragmataPro" :height 130 :weight 'normal)
 
 (provide '.emacs)
 ;;; .emacs ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

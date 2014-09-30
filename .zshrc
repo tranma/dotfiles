@@ -46,8 +46,8 @@ unsetopt inc_append_history
 unsetopt append_history
 unsetopt share_history # share command history data
 
-export PATH=/Users/tranma/.gem/ruby/1.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/texbin:/Users/tranma/ghc/7.8.2/bin:/Users/tranma/.cabal/bin
-
+export PATH=/Users/tranma/.gem/ruby/1.8/bin:/Users/tranma/Library/Haskell/bin:/Users/tranma/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/tranma/Library/Haskell/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/texbin:/Users/tranma/ghc/bin
+ 
 # Coq
 export PATH=$PATH:~/Library/Haskell/bin:/usr/local/cuda/bin:/Applications/CoqIdE_8.4.app/Contents/Resources/bin
 
