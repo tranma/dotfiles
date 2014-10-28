@@ -21,8 +21,10 @@
 ; Activate all the packages (in particular autoloads)
 (package-initialize)
 
+(desktop-save-mode 1)
+
 ;;--------------------------------------------------------------------
-;; macros 
+;; macros
 ;;--------------------------------------------------------------------
 
 ; From https://github.com/juanjux/emacs-dotfiles
@@ -108,8 +110,6 @@
 ;;--------------------------------------------------------------------
 (require 'haskell-mode)
 
-(turn-on-haskell-simple-indent)
-
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
@@ -130,6 +130,7 @@
 (define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle)
 (setq haskell-hoogle-command "hoogle")
 
+(add-hook 'haskell-mode-hook #'turn-on-haskell-simple-indent)
 (add-hook 'haskell-mode-hook #'flycheck-mode)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
