@@ -40,9 +40,26 @@
        '(progn ,@body))))
 
 ;;--------------------------------------------------------------------
+;; projectile & project-explorer
+;;--------------------------------------------------------------------
+(require 'projectile)
+
+; PE is useful as projectile only index files when you first open them
+
+;(require 'project-explorer)
+;(after 'project-explorer
+;  (setq pe/cache-directory "~/.emacs.d/cache/project_explorer")
+;  (setq pe/omit-regex (concat pe/omit-regex "\\|dist\\|.*\.hi"))
+;  (setq pe/cache-enabled t)
+;  (setq pe/width 30)
+;  (setq pe/side 'right))
+;(global-set-key (kbd "C-x C-f") 'project-explorer-helm)
+
+;;--------------------------------------------------------------------
 ;; helm
 ;;--------------------------------------------------------------------
 
+;(require 'helm)
 (helm-mode 1)
 ;; helm settings (TAB in helm window for actions over selected items,
 ;; C-SPC to select items)
@@ -56,25 +73,16 @@
 (put 'set-goal-column 'disabled nil)
 (global-set-key (kbd "C-c h") 'helm-mini)
 
+; helm-projectile
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq projectile-switch-project-action 'helm-projectile)
+
 ; flycheck
 (eval-after-load 'flycheck
   '(define-key flycheck-mode-map (kbd "C-c ! h") 'helm-flycheck))
 
-;;--------------------------------------------------------------------
-;; projectile & project-explorer
-;;--------------------------------------------------------------------
-(require 'projectile)
-
-; PE is useful as projectile only index files when you first open them
-
-(require 'project-explorer)
-(after 'project-explorer
-  (setq pe/cache-directory "~/.emacs.d/cache/project_explorer")
-  (setq pe/omit-regex (concat pe/omit-regex "\\|dist\\|.*\.hi"))
-  (setq pe/cache-enabled t)
-  (setq pe/width 30)
-  (setq pe/side 'right))
-(global-set-key (kbd "C-x C-f") 'project-explorer-helm)
 
 ;;--------------------------------------------------------------------
 ;; editor
