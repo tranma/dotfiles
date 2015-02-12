@@ -107,6 +107,7 @@
 ;; haskell
 ;;--------------------------------------------------------------------
 (require 'haskell-mode)
+(require 'haskell-cabal)
 
 ; interactive mode
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
