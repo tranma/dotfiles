@@ -40,20 +40,9 @@
        '(progn ,@body))))
 
 ;;--------------------------------------------------------------------
-;; projectile & project-explorer
+;; projectile 
 ;;--------------------------------------------------------------------
 (require 'projectile)
-
-; PE is useful as projectile only index files when you first open them
-
-;(require 'project-explorer)
-;(after 'project-explorer
-;  (setq pe/cache-directory "~/.emacs.d/cache/project_explorer")
-;  (setq pe/omit-regex (concat pe/omit-regex "\\|dist\\|.*\.hi"))
-;  (setq pe/cache-enabled t)
-;  (setq pe/width 30)
-;  (setq pe/side 'right))
-;(global-set-key (kbd "C-x C-f") 'project-explorer-helm)
 
 ;;--------------------------------------------------------------------
 ;; helm
@@ -61,6 +50,7 @@
 
 ;(require 'helm)
 (helm-mode 1)
+
 ;; helm settings (TAB in helm window for actions over selected items,
 ;; C-SPC to select items)
 (require 'helm-config)
@@ -91,7 +81,7 @@
 (windmove-default-keybindings)
 
 ; appearance
-(load-theme 'jujube t)
+(load-theme 'darkburn t)
 (scroll-bar-mode -1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -118,6 +108,7 @@
 ;;--------------------------------------------------------------------
 (require 'haskell-mode)
 
+; interactive mode
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
@@ -127,20 +118,25 @@
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
+; compilation mode
+(define-key haskell-mode-map (kbd "C-c C-o") 'haskell-compile)
+(define-key haskell-cabal-mode-map (kbd "C-c C-o") 'haskell-compile)
+
+; evil
+(add-to-list 'evil-emacs-state-modes 'haskell-interactive-mode)
+(add-to-list 'evil-emacs-state-modes 'haskell-presentation-mode)
+
+; flycheck
 (custom-set-variables
  '(flycheck-haskell-ghc-executable "/Users/tranma/ghc/bin/ghc")
  '(flycheck-haskell-runhaskell "/Users/tranma/.cabal/bin/cabal-repl")
  '(haskell-process-type (quote cabal-repl)))
-(add-to-list 'evil-emacs-state-modes 'haskell-interactive-mode)
-(add-to-list 'evil-emacs-state-modes 'haskell-presentation-mode)
-
-(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile)
-(define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle)
-(setq haskell-hoogle-command "hoogle")
-
-(add-hook 'haskell-mode-hook #'turn-on-haskell-simple-indent)
-(add-hook 'haskell-mode-hook #'flycheck-mode)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
+(add-hook 'haskell-mode-hook #'flycheck-mode)
+
+; indent
+(add-hook 'haskell-mode-hook #'turn-on-haskell-simple-indent)
+
 
 ;;--------------------------------------------------------------------
 ;; org
