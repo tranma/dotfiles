@@ -4,3 +4,6 @@
 *.o
 *.dyn_hi
 *.dyn_o
+.cabal-sandbox/
+dist/
+
