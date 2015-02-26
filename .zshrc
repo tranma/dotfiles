@@ -46,7 +46,7 @@ unsetopt inc_append_history
 unsetopt append_history
 unsetopt share_history # share command history data
 
-export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/Users/tranma/.cabal/bin
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/Users/tranma/.cabal/bin:/Users/tranma/ghc/bin
 
 # CUDA
 #export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/cuda/lib
