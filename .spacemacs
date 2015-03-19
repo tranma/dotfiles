@@ -38,7 +38,9 @@
   (load-file "~/.emacs.d/private/haskell-flycheck.el")
   (windmove-default-keybindings)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-
+  (eval-after-load 'haskell-mode
+    (define-key haskell-mode-map (kbd "C-c C-o") 'haskell-compile)
+  )
   (custom-set-variables
    '(ahs-case-fold-search nil)
    '(ahs-default-range (quote ahs-range-whole-buffer))
